@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/EditSearch1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="주소를 입력하세요.."
+        android:background="@color/colorPrimaryDark"
+        android:textColor="#000000"/>
+   <!-- <LinearLayout
+    android:id="@+id/mapview1"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+        android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true" /> -->
+    <TextView
+        android:id="@+id/TextLocName1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="left"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:text="송파학사"
+        android:textColorHighlight="#f5d5dc"
+        android:textSize="25dp"
+        android:layout_below="@+id/EditSearch1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/TextLocAddress1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textColor="#69b9ab"
+        android:textSize="15dp"
+        android:layout_below="@+id/TextLocName1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/BtnComplete"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="완료"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/BtnEnd"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/BtnStart"
+        android:layout_toRightOf="@+id/BtnStart"
+        android:text="도착지" />
+
+    <Button
+        android:id="@+id/BtnVia"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:text="경유지"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/BtnEnd"
+        android:layout_toEndOf="@+id/BtnEnd" />
+
+    <Button
+        android:id="@+id/BtnStart"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="출발지" />
+
+</RelativeLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/BtnCompute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="최적 경로 계산" />
+
+    <Button
+        android:id="@+id/BtnAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="계속 추가" />
+
+    <TextView
+        android:id="@+id/TextStart"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="출발지"
+        android:textSize="25dp"
+        android:textStyle="bold"/>
+    <ListView
+        android:id="@+id/ListStartView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:choiceMode="singleChoice"
+        android:dividerHeight="1.5dp"
+        android:layout_below="@+id/TextStart" />
+    <TextView
+        android:id="@+id/TextVia"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="경유지"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/ListStartView"/>
+    <ListView
+        android:id="@+id/ListViaView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:choiceMode="singleChoice"
+        android:dividerHeight="1.5dp"
+        android:layout_below="@+id/TextVia" />
+    <TextView
+        android:id="@+id/TextEnd"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="도착지"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:layout_below="@+id/ListViaView"/>
+    <ListView
+        android:id="@+id/ListEndView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:choiceMode="singleChoice"
+        android:dividerHeight="1.5dp"
+        android:layout_below="@+id/TextEnd" />
+</LinearLayout>

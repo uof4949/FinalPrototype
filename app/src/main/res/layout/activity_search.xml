@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/searchView"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp"
+    tools:context="kr.ac.gachon.finalprototype.SearchActivity">
+    <EditText
+        android:id="@+id/EditSearch"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="가천대"
+        android:hint="주소를 입력하세요.." />
+
+    <Button
+        android:id="@+id/BtnSearch1"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@+id/EditSearch"
+        android:text="검색" />
+
+    <ListView
+        android:id="@+id/ListLocView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:choiceMode="singleChoice"
+        android:dividerHeight="1.5dp"
+        android:layout_below="@+id/BtnSearch1">
+    </ListView>
+</RelativeLayout>
