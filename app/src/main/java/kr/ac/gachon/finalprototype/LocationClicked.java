@@ -80,22 +80,29 @@ public class LocationClicked extends AppCompatActivity implements View.OnClickLi
         btnStart.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 WhichBtn = new String("Start");
-                Intent intent = new Intent(getApplicationContext(), StoreActivity.class);
-                // 해당 지점 좌표를 담은 locationItem 전송.
-                intent.putExtra("LocationItemToStore", locationItem);
-                // Start 버튼이 눌려서 넘어감을 알려줌. 이 지점은 출발지다.
-                intent.putExtra("WhichBtnToStore", WhichBtn);
+                // 출발지에 지점을 추가하지 않았을 때만 추가.
+                if(startData.size() == 0) {
+                    Intent intent = new Intent(getApplicationContext(), StoreActivity.class);
+                    // 해당 지점 좌표를 담은 locationItem 전송.
+                    intent.putExtra("LocationItemToStore", locationItem);
+                    // Start 버튼이 눌려서 넘어감을 알려줌. 이 지점은 출발지다.
+                    intent.putExtra("WhichBtnToStore", WhichBtn);
 
-                // LocationClicked를 거쳐 StoreActivity로 넘겨줄 startData, viaData, endData 전송.
-                intent.putExtra("StartLocationItemToStore", startData);
-                intent.putExtra("ViaLocationItemToStore", viaData);
-                intent.putExtra("EndLocationItemToStore", endData);
+                    // LocationClicked를 거쳐 StoreActivity로 넘겨줄 startData, viaData, endData 전송.
+                    intent.putExtra("StartLocationItemToStore", startData);
+                    intent.putExtra("ViaLocationItemToStore", viaData);
+                    intent.putExtra("EndLocationItemToStore", endData);
 
-                Toast.makeText(LocationClicked.this, "출발지 : " + LocName, Toast.LENGTH_SHORT).show();
-                // 값을 다시 돌려받기 위해 사용. Add가 들어오면 SearchActivity로 locationItem과 WhichBtn을 전송.
-                // 두번째 인자 0은 돌려 받을 값이 있을 경우 0 이상을 쓴다.
-                // Compute가 들어오면 SearchActivity로 그냥 돌아감.
-                startActivityForResult(intent, 0);
+                    Toast.makeText(LocationClicked.this, "출발지 : " + LocName, Toast.LENGTH_SHORT).show();
+                    // 값을 다시 돌려받기 위해 사용. Add가 들어오면 SearchActivity로 locationItem과 WhichBtn을 전송.
+                    // 두번째 인자 0은 돌려 받을 값이 있을 경우 0 이상을 쓴다.
+                    // Compute가 들어오면 SearchActivity로 그냥 돌아감.
+                    startActivityForResult(intent, 0);
+                }
+                else {
+                    Toast.makeText(LocationClicked.this, "출발지를 이미 선택하셨습니다. 출발지 : " + startData.get(0).getLocName(), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
 
@@ -121,19 +128,26 @@ public class LocationClicked extends AppCompatActivity implements View.OnClickLi
         btnEnd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 WhichBtn = new String("End");
-                Intent intent = new Intent(getApplicationContext(), StoreActivity.class);
-                intent.putExtra("LocationItemToStore", locationItem);
-                // End 버튼이 눌려서 넘어감을 알려줌. 이 지점은 도착지다.
-                intent.putExtra("WhichBtnToStore", WhichBtn);
+                // 도착지에 지점을 추가하지 않았을때만 추가.
+                if(endData.size() == 0) {
+                    Intent intent = new Intent(getApplicationContext(), StoreActivity.class);
+                    intent.putExtra("LocationItemToStore", locationItem);
+                    // End 버튼이 눌려서 넘어감을 알려줌. 이 지점은 도착지다.
+                    intent.putExtra("WhichBtnToStore", WhichBtn);
 
-                // LocationClicked를 거쳐 StoreActivity로 넘겨줄 startData, viaData, endData 전송.
-                intent.putExtra("StartLocationItemToStore", startData);
-                intent.putExtra("ViaLocationItemToStore", viaData);
-                intent.putExtra("EndLocationItemToStore", endData);
+                    // LocationClicked를 거쳐 StoreActivity로 넘겨줄 startData, viaData, endData 전송.
+                    intent.putExtra("StartLocationItemToStore", startData);
+                    intent.putExtra("ViaLocationItemToStore", viaData);
+                    intent.putExtra("EndLocationItemToStore", endData);
 
-                Toast.makeText(LocationClicked.this, "도착지 : " + LocName, Toast.LENGTH_SHORT).show();
-                // 값을 다시 돌려받기 위해 사용. Add가 들어오면 SearchActivity로 locationItem과 WhichBtn을 전송.
-                startActivityForResult(intent, 0);
+                    Toast.makeText(LocationClicked.this, "도착지 : " + LocName, Toast.LENGTH_SHORT).show();
+                    // 값을 다시 돌려받기 위해 사용. Add가 들어오면 SearchActivity로 locationItem과 WhichBtn을 전송.
+                    startActivityForResult(intent, 0);
+                }
+                else {
+                    Toast.makeText(LocationClicked.this, "도착지를 이미 선택하셨습니다. 도착지 : " + endData.get(0).getLocName(), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
         });
 
