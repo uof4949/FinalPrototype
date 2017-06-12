@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     private Button btnCompassMode;
     private Button btnSetTrackingMode;
     private Button btnSetMapType;
+    private Button btnHide;
 
     // 에디트 텍스트
     //private EditText editSearch;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         btnCompassMode = (Button) findViewById(R.id.BtnCompassMode);
         btnSetTrackingMode = (Button) findViewById(R.id.BtnSetTrackingMode);
         btnSetMapType = (Button) findViewById(R.id.BtnSetMapType);
+        btnHide = (Button) findViewById(R.id.BtnHide);
 
         // 에디트 텍스트 선언
         //editSearch = (EditText) findViewById(R.id.EditSearch);
@@ -117,9 +119,6 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
 
         linearLayout.addView(tmapview);
         tmapview.setSKPMapApiKey(mApiKey);
-
-        addPoint();
-        showMarkerPoint();
 
         // 현재 보는 방향
         tmapview.setCompassMode(true);
@@ -144,16 +143,20 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         tmapgps.OpenGps();
 
         // 현재 위치의 좌표를 반환합니다.
-        //tpoint = tmapgps.getLocation();
-
         // 현재위치로 표시되는 좌표의 위도, 경도를 반환.
-        tpoint = tmapview.getLocationPoint();
+        tpoint = tmapgps.getLocation();
         Latitude = tpoint.getLatitude();
         Longitude = tpoint.getLongitude();
+        m_tmapPoint.add(tpoint);
+
+        //tmapview.setCenterPoint(tpoint.getLongitude(), tpoint.getLatitude(), true);
 
         // 화면중심을 단말의 현재위치로 이동.
         tmapview.setTrackingMode(true);
         tmapview.setSightVisible(true);
+
+        addPoint();
+        showMarkerPoint();
 
         // 풍선에서 우측 버튼 클릭시 할 행동입니다.
         tmapview.setOnCalloutRightButtonClickListener(new TMapView.OnCalloutRightButtonClickCallback() {
@@ -180,6 +183,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         btnSetTrackingMode.setOnClickListener((View.OnClickListener) this);
         btnCompassMode.setOnClickListener((View.OnClickListener) this);
         btnSetMapType.setOnClickListener((View.OnClickListener) this);
+        btnHide.setOnClickListener((View.OnClickListener) this);
 
         // 에디트 텍스트 리스너.
 
@@ -195,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     public void addPoint() { // 여기에 핀을 꼽을 포인트들을 배열에 add해주세요!
         // 강남
         //m_mapPoint.add(new MapPoint("강남", 37.510350, 127.066847));
-        m_mapPoint.add(new MapPoint("강남", Latitude, Longitude));
+         m_mapPoint.add(new MapPoint("강남", Latitude, Longitude));
         //m_mapPoint.add(new MapPoint("강남", tpoint.getLatitude(), tpoint.getLongitude()));
     }
 
@@ -272,6 +276,26 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
                     Toast.makeText(MainActivity.this, "일반지도로 변경합니다.", Toast.LENGTH_SHORT).show();
                     tmapview.setMapType(TMapView.MAPTYPE_STANDARD);
                 }
+                break;
+            case R.id.BtnHide:
+                // 보이도록 설정되어 있을 경우.
+                if(btnSearch.getVisibility() == View.VISIBLE) {
+                    btnSearch.setVisibility(View.INVISIBLE);
+                    btnZoomIn.setVisibility(View.INVISIBLE);
+                    btnZoomOut.setVisibility(View.INVISIBLE);
+                    btnCompassMode.setVisibility(View.INVISIBLE);
+                    btnSetTrackingMode.setVisibility(View.INVISIBLE);
+                    btnSetMapType.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    btnSearch.setVisibility(View.VISIBLE);
+                    btnZoomIn.setVisibility(View.VISIBLE);
+                    btnZoomOut.setVisibility(View.VISIBLE);
+                    btnCompassMode.setVisibility(View.VISIBLE);
+                    btnSetTrackingMode.setVisibility(View.VISIBLE);
+                    btnSetMapType.setVisibility(View.VISIBLE);
+                }
+
                 break;
         }
     }

@@ -10,7 +10,6 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp"
     tools:context="kr.ac.gachon.finalprototype.MainActivity">
-
         <Button
             android:id="@+id/BtnSearch"
             android:layout_width="wrap_content"
@@ -52,6 +51,14 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/BtnSetTrackingMode"
         android:text="지도종류"/>
+    <Button
+        android:id="@+id/BtnHide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/mapview"
+        android:text="버튼숨기기"/>
+
     <LinearLayout
         android:id="@+id/mapview"
         android:layout_width="match_parent"

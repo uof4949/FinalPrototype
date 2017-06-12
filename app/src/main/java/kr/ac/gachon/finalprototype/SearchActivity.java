@@ -128,7 +128,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             String resultStr = data.getStringExtra("LocResult");
 
             //문자열이 Add일 경우. 받아온 locationItem을 WhichBtn에 따라 추가해야됨.
-            if(resultStr.equals("Add")) {
+            if(resultStr.equals("Add") || resultStr.equals("ReturnToSearch")) {
                 // 어떤 버튼을 눌러서 돌아왔는지(출발지, 도착지, 경유지 여부) 판단.
                 String WhichBtn = data.getStringExtra("WhichBtnBack");
 

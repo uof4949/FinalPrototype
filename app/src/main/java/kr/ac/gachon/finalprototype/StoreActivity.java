@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.skp.Tmap.TMapPOIItem;
 import com.skp.Tmap.TMapPoint;
@@ -114,14 +115,26 @@ public class StoreActivity extends AppCompatActivity implements View.OnClickList
         // 경로 탐색 버튼을 눌렀을 때.
         btnCompute.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), FindOptimalPath.class);
-                // 최적 경로 탐색 화면으로 간다.
-                // 데이터 전송.
-                intent.putExtra("StartLocationItemToFind", startData);
-                intent.putExtra("ViaLocationItemToFind", viaData);
-                intent.putExtra("EndLocationItemToFind", endData);
+                // 출발지 또는 도착지를 선택하지 않았을 때.
+                if(startData.size() <= 0 || endData.size() <= 0) {
+                    Toast.makeText(StoreActivity.this, "출발지와 도착지를 선택하세요!", Toast.LENGTH_SHORT).show();
+                    // 이 경우 SearchActivity로 돌아가라고 LocationLinked한테 알려줘야한다.
+                    Intent outIntent = new Intent(getApplicationContext(), LocationClicked.class);
+                    // SearchActivity로 가라는 문자열을 넘김.
+                    outIntent.putExtra("StoreResult", "ReturnToSearch");
+                    setResult(RESULT_OK, outIntent);
+                    finish();
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), FindOptimalPath.class);
+                    // 최적 경로 탐색 화면으로 간다.
+                    // 데이터 전송.
+                    intent.putExtra("StartLocationItemToFind", startData);
+                    intent.putExtra("ViaLocationItemToFind", viaData);
+                    intent.putExtra("EndLocationItemToFind", endData);
 
-                startActivity(intent);
+                    startActivity(intent);
+                }
             }
         });
     }

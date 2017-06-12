@@ -52,6 +52,13 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/BtnSetMapType2"
         android:text="돌아가기"/>
+    <Button
+        android:id="@+id/BtnHide2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/optimalmapview"
+        android:text="버튼숨기기"/>
     <LinearLayout
         android:id="@+id/optimalmapview"
         android:layout_width="match_parent"

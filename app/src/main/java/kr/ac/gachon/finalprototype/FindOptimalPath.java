@@ -44,6 +44,7 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
     private Button btnSetTrackingMode2;
     private Button btnSetMapType2;
     private Button btnReturnToMain;
+    private Button btnHide2;
 
     private ArrayList<TMapPoint> m_tmapPoint = new ArrayList<TMapPoint>();
     private ArrayList<String> mArrayMarkerID = new ArrayList<String>();
@@ -75,6 +76,7 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
         btnSetTrackingMode2 = (Button) findViewById(R.id.BtnSetTrackingMode2);
         btnSetMapType2 = (Button) findViewById(R.id.BtnSetMapType2);
         btnReturnToMain = (Button) findViewById(R.id.BtnReturnToMain);
+        btnHide2 = (Button) findViewById(R.id.BtnHide2);
 
         Intent intent = getIntent();
 
@@ -111,7 +113,7 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
         tmapview.setCompassMode(true);
 
         // 현위치 아이콘표시
-        tmapview.setIconVisibility(true);
+        //tmapview.setIconVisibility(true);
 
         // 줌레벨
         // 왼쪽 상단 좌표구함
@@ -120,9 +122,14 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
         TMapPoint rightBottom = getRightBottomPoint(startData, viaData, endData);
         // 주어진 좌표에 맞게 줌레벨을 조정.
         tmapview.zoomToTMapPoint(leftTop, rightBottom);
+        //tmapview.MapZoomOut();
+        //tmapview.MapZoomOut();
 
         // 왼쪽 상단 좌표와 오른쪽 상단 좌표의 평균 좌표를 구한다.
-        //double avgLongitude = (leftTop.getLongitude() + rightBottom.)
+        double avgLongitude = (leftTop.getLongitude() + rightBottom.getLongitude()) / 2;
+        double avgLatitude = (leftTop.getLatitude() + rightBottom.getLatitude()) / 2;
+        // 그 좌표로 지도의 중심을 이동한다. 세 번째 인자는 애니메이션 적용 여부.
+        tmapview.setCenterPoint(avgLongitude, avgLatitude, true);
 
         // 지도 타입
         tmapview.setMapType(TMapView.MAPTYPE_STANDARD);
@@ -147,7 +154,7 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
         Longitude = tpoint.getLongitude();
 
         // 화면중심을 단말의 현재위치로 이동.
-        tmapview.setTrackingMode(true);
+        //tmapview.setTrackingMode(true);
         tmapview.setSightVisible(true);
 
 
@@ -174,6 +181,7 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
         btnCompassMode2.setOnClickListener((View.OnClickListener) this);
         btnSetMapType2.setOnClickListener((View.OnClickListener) this);
         btnReturnToMain.setOnClickListener((View.OnClickListener) this);
+        btnHide2.setOnClickListener((View.OnClickListener) this);
     }
 
     // 왼쪽 상단 좌표를 구하기 위한 메소드.
@@ -311,6 +319,26 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
                 Toast.makeText(FindOptimalPath.this, "메인화면으로 돌아갑니다.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.BtnHide2:
+                // 보이도록 설정되어 있을경우.
+                if(btnZoomIn2.getVisibility() == View.VISIBLE) {
+                    btnZoomIn2.setVisibility(View.INVISIBLE);
+                    btnZoomOut2.setVisibility(View.INVISIBLE);
+                    btnCompassMode2.setVisibility(View.INVISIBLE);
+                    btnSetTrackingMode2.setVisibility(View.INVISIBLE);
+                    btnSetMapType2.setVisibility(View.INVISIBLE);
+                    btnReturnToMain.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    btnZoomIn2.setVisibility(View.VISIBLE);
+                    btnZoomOut2.setVisibility(View.VISIBLE);
+                    btnCompassMode2.setVisibility(View.VISIBLE);
+                    btnSetTrackingMode2.setVisibility(View.VISIBLE);
+                    btnSetMapType2.setVisibility(View.VISIBLE);
+                    btnReturnToMain.setVisibility(View.VISIBLE);
+                }
+                break;
         }
     }
 }

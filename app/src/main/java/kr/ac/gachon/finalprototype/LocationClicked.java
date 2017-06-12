@@ -176,6 +176,16 @@ public class LocationClicked extends AppCompatActivity implements View.OnClickLi
                 setResult(RESULT_OK, outIntent);
                 finish();
             }
+            // Search로 돌아가라는 사인을 받았을 때.
+            else if(resultStr.equals("ReturnToSearch")) {
+                Intent outIntent = new Intent(getApplicationContext(), SearchActivity.class);
+                outIntent.putExtra("LocResult", "ReturnToSearch");
+                // locationItem과 WhichBtn 전송.
+                outIntent.putExtra("LocationItemBack", locationItem);
+                outIntent.putExtra("WhichBtnBack", WhichBtn);
+                setResult(RESULT_OK, outIntent);
+                finish();
+            }
         }
     }
 
