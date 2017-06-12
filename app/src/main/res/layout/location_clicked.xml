@@ -36,15 +36,6 @@
         android:layout_alignParentStart="true" />
 
     <Button
-        android:id="@+id/BtnComplete"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="완료"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
         android:id="@+id/BtnEnd"
         android:layout_width="80dp"
         android:layout_height="wrap_content"

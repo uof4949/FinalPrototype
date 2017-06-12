@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by kalios on 2017-06-11.
  */
@@ -23,6 +25,11 @@ public class LocationClicked extends AppCompatActivity implements View.OnClickLi
     String WhichBtn = null;
     LocationItem locationItem = null;
 
+    // StoreActivity로 LocationItem을 넘겨주기 위한 ArrayList들.
+    ArrayList<LocationItem> startData = new ArrayList<LocationItem>();
+    ArrayList<LocationItem> viaData = new ArrayList<LocationItem>();
+    ArrayList<LocationItem> endData = new ArrayList<LocationItem>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +42,6 @@ public class LocationClicked extends AppCompatActivity implements View.OnClickLi
         Button btnStart = (Button) findViewById(R.id.BtnStart);
         Button btnEnd = (Button) findViewById(R.id.BtnEnd);
         Button btnVia = (Button) findViewById(R.id.BtnVia);
-        Button btnComplete = (Button) findViewById(R.id.BtnComplete);
-
 
         Intent intent = getIntent();
 
@@ -45,6 +50,16 @@ public class LocationClicked extends AppCompatActivity implements View.OnClickLi
         LocName = locationItem.getLocName();
         LocAddress = locationItem.getLocAddress();
         // POIItem은 바로 StoreActivity로 들어가 저장될것임.
+
+        // 초기화.
+        startData.clear();
+        viaData.clear();
+        endData.clear();
+        // SearchActivity에서 LocationClicked를 거쳐 StoreActivity로 전달될 startData, viaData, endData 받아옴.
+        // SearchActivity에서 넘어올 때 새로 생성되므로 매번 넣어줘야함.
+        startData = intent.getParcelableArrayListExtra("StartLocationItem");
+        viaData = intent.getParcelableArrayListExtra("ViaLocationItem");
+        endData = intent.getParcelableArrayListExtra("EndLocationItem");
 
         // 화면 값 바꿈
         editSearch1.setText(LocName);
@@ -55,7 +70,8 @@ public class LocationClicked extends AppCompatActivity implements View.OnClickLi
         editSearch1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent outIntent = new Intent(getApplicationContext(), SearchActivity.class);
-                outIntent.putExtra("SearchValue", editSearch1.getText().toString());
+                // 이 경우 LocResult 키워드로 반환하되 EditText에 있던 문자열을 전송.
+                outIntent.putExtra("LocResult", editSearch1.getText().toString());
                 setResult(RESULT_OK, outIntent);
                 finish();
             }
@@ -65,19 +81,82 @@ public class LocationClicked extends AppCompatActivity implements View.OnClickLi
             public void onClick(View v) {
                 WhichBtn = new String("Start");
                 Intent intent = new Intent(getApplicationContext(), StoreActivity.class);
+                // 해당 지점 좌표를 담은 locationItem 전송.
                 intent.putExtra("LocationItem", locationItem);
                 // Start 버튼이 눌려서 넘어감을 알려줌. 이 지점은 출발지다.
                 intent.putExtra("WhichBtn", WhichBtn);
+
+                // LocationClicked를 거쳐 StoreActivity로 넘겨줄 startData, viaData, endData 전송.
+                intent.putExtra("StartLocationItem", startData);
+                intent.putExtra("ViaLocationItem", viaData);
+                intent.putExtra("EndLocationItem", endData);
+
                 Toast.makeText(LocationClicked.this, "출발지 : " + LocName, Toast.LENGTH_SHORT).show();
-                startActivity(intent);
+                // 값을 다시 돌려받기 위해 사용. Add가 들어오면 SearchActivity로 locationItem과 WhichBtn을 전송.
+                // 두번째 인자 0은 돌려 받을 값이 있을 경우 0 이상을 쓴다.
+                // Compute가 들어오면 SearchActivity로 그냥 돌아감.
+                startActivityForResult(intent, 0);
             }
         });
 
         btnVia.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                WhichBtn = new String("Via");
+                Intent intent = new Intent(getApplicationContext(), StoreActivity.class);
+                intent.putExtra("LocationItem", locationItem);
 
+                // LocationClicked를 거쳐 StoreActivity로 넘겨줄 startData, viaData, endData 전송.
+                intent.putExtra("StartLocationItem", startData);
+                intent.putExtra("ViaLocationItem", viaData);
+                intent.putExtra("EndLocationItem", endData);
+
+                // Via 버튼이 눌려서 넘어감을 알려줌. 이 지점은 경유지다.
+                intent.putExtra("WhichBtn", WhichBtn);
+                Toast.makeText(LocationClicked.this, "경유지 : " + LocName, Toast.LENGTH_SHORT).show();
+                // 값을 다시 돌려받기 위해 사용. Add가 들어오면 SearchActivity로 locationItem과 WhichBtn을 전송.
+                startActivityForResult(intent, 0);
             }
         });
+
+        btnEnd.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                WhichBtn = new String("End");
+                Intent intent = new Intent(getApplicationContext(), StoreActivity.class);
+                intent.putExtra("LocationItem", locationItem);
+
+                // LocationClicked를 거쳐 StoreActivity로 넘겨줄 startData, viaData, endData 전송.
+                intent.putExtra("StartLocationItem", startData);
+                intent.putExtra("ViaLocationItem", viaData);
+                intent.putExtra("EndLocationItem", endData);
+
+                // End 버튼이 눌려서 넘어감을 알려줌. 이 지점은 도착지다.
+                intent.putExtra("WhichBtn", WhichBtn);
+                Toast.makeText(LocationClicked.this, "도착지 : " + LocName, Toast.LENGTH_SHORT).show();
+                // 값을 다시 돌려받기 위해 사용. Add가 들어오면 SearchActivity로 locationItem과 WhichBtn을 전송.
+                startActivityForResult(intent, 0);
+            }
+        });
+
+    }
+
+    // StoreActivity로부터 Add를 전달받을 경우, SearchActivity로 locationItem과 WhichBtn을 전송.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK) {
+            String resultStr = data.getStringExtra("StoreResult");
+            if(resultStr.equals("Add")) {
+                // Add를 넘겨받았으면. SearchActivity로 locationItem과 WhichBtn을 전송.
+                Intent outIntent = new Intent(getApplicationContext(), SearchActivity.class);
+
+                //LocationClicked에서 돌아가므로 키워드는 LocResult, 추가 명령이므로 Add 전송.
+                outIntent.putExtra("LocResult", new String("Add"));
+                // locationItem과 WhichBtn 전송.
+                outIntent.putExtra("LocationItemBack", locationItem);
+                outIntent.putExtra("WhichBtnBack", WhichBtn);
+                setResult(RESULT_OK, outIntent);
+                finish();
+            }
+        }
     }
 
     // 오버라이딩 안하면 오류남. 반드시 해줘야 함.

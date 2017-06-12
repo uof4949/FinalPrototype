@@ -54,12 +54,13 @@
         android:textSize="25dp"
         android:textStyle="bold"
         android:layout_below="@+id/ListViaView"/>
+
     <ListView
         android:id="@+id/ListEndView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/TextEnd"
         android:layout_weight="1"
         android:choiceMode="singleChoice"
-        android:dividerHeight="1.5dp"
-        android:layout_below="@+id/TextEnd" />
+        android:dividerHeight="1.5dp" />
 </LinearLayout>

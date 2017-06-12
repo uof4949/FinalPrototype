@@ -26,6 +26,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private ArrayList<LocationItem> data = null;
     private ArrayList<TMapPOIItem> POIdata = null;
 
+    // StoreActivity로 LocationItem을 넘겨주기 위한 ArrayList들.
+    ArrayList<LocationItem> startData = new ArrayList<LocationItem>();
+    ArrayList<LocationItem> viaData = new ArrayList<LocationItem>();
+    ArrayList<LocationItem> endData = new ArrayList<LocationItem>();
+
     //TMapPoint tpoint = null;
 
     @Override
@@ -34,6 +39,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_search);
 
         Button btnSearch1 = (Button) findViewById(R.id.BtnSearch1);
+
+        // 처음 SearchActivity를 실행했을때 StoreActivity로 넘겨줄 ArrayList들 초기화.
+        startData.clear();
+        viaData.clear();
+        endData.clear();
 
         btnSearch1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -47,6 +57,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
                 // 키보드 내리기.
                 hideSoftKeyboard(v);
+
                 POIdata = new ArrayList<TMapPOIItem>();
                 data = new ArrayList<LocationItem>();
                 POIdata.clear();
@@ -76,19 +87,21 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 // 리스트 속의 아이템 연결
                 LocationsAdapter adapter = new LocationsAdapter(SearchActivity.this, R.layout.locations_item, POIdata, data);
                 listLocView.setAdapter(adapter);
-                //adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
 
                 // 아이템 클릭시 작동
                 listLocView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView parent, View v, int position, long id) {
                         Intent intent = new Intent(getApplicationContext(), LocationClicked.class);
-                        // putExtra의 첫 값은 식별 태그, 뒤에는 다음 화면에 넘길 값.
-                        // 이름, 주소, POIItem 세개 넘기지 말고 그냥 LocationItem 넘기면 해결되는거 아님?
+                        // 해당 위치 정보를 담은 locationItem 넘겨줌.
                         intent.putExtra("LocationItem", data.get(position));
-                        //intent.putExtra("LocName", data.get(position).getLocName());
-                        //intent.putExtra("LocAddress", data.get(position).getLocAddress());
-                        //intent.putExtra("POIItem", data.get(position).getPOIItem());
+
+                        // LocationClicked를 거쳐 StoreActivity로 넘겨줄 startData, viaData, endData 전송.
+                        intent.putExtra("StartLocationItem", startData);
+                        intent.putExtra("ViaLocationItem", viaData);
+                        intent.putExtra("EndLocationItem", endData);
+
                         startActivityForResult(intent, 0);
                     }
                 });
@@ -114,12 +127,40 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK) {
-            EditText editSearch = (EditText) findViewById(R.id.EditSearch);
-            String searchValue = data.getStringExtra("SearchValue").toString();
-            // 검색창 값을 가져옴. 가천대역[분당선] 검색시 가천대역[분당선] 그대로 가져옴.
-            editSearch.setText(searchValue);
-            // 커서를 맨 끝으로 보냄.
-            editSearch.setSelection(searchValue.length());
+            // LocationClicked로부터 문자열을 받아옴.
+            String resultStr = data.getStringExtra("LocResult");
+
+            //문자열이 Add일 경우. 받아온 locationItem을 WhichBtn에 따라 추가해야됨.
+            if(resultStr.equals("Add")) {
+                // 어떤 버튼을 눌러서 돌아왔는지(출발지, 도착지, 경유지 여부) 판단.
+                String WhichBtn = data.getStringExtra("WhichBtnBack");
+
+                // locationItem 받아옴.
+                LocationItem locationItem = data.getParcelableExtra("LocationItemBack");
+
+                // 어떤 버튼이냐에 따라 어떤 ArrayList에 넣을지 결정함.
+                switch (WhichBtn) {
+                    case "Start":
+                        startData.add(locationItem);
+                        break;
+                    case "Via":
+                        viaData.add(locationItem);
+                        break;
+                    case "End":
+                        endData.add(locationItem);
+                        break;
+                }
+            }
+
+            // 문자열이 Add가 아닐 경우. LocationClicked에서 검색창을 클릭한 경우이다.
+            else {
+                EditText editSearch = (EditText) findViewById(R.id.EditSearch);
+                String searchValue = data.getStringExtra("SearchValue").toString();
+                // 검색창 값을 가져옴. 가천대역[분당선] 검색시 가천대역[분당선] 그대로 가져옴.
+                editSearch.setText(searchValue);
+                // 커서를 맨 끝으로 보냄.
+                editSearch.setSelection(searchValue.length());
+            }
         }
     }
 }
