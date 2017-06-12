@@ -45,8 +45,8 @@ public class StoreActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = getIntent();
 
         // 데이터 받아오기
-        locationItem = intent.getParcelableExtra("LocationItem");
-        WhichBtn = intent.getStringExtra("WhichBtn");
+        locationItem = intent.getParcelableExtra("LocationItemToStore");
+        WhichBtn = intent.getStringExtra("WhichBtnToStore");
 
         // 초기화.
         startData.clear();
@@ -54,9 +54,9 @@ public class StoreActivity extends AppCompatActivity implements View.OnClickList
         endData.clear();
         // SearchActivity에서 LocationClicked를 거쳐 StoreActivity로 전달될 startData, viaData, endData 받아옴.
         // LocationClicked에서 넘어올 때 새로 생성되므로 매번 넣어줘야함.
-        startData = intent.getParcelableArrayListExtra("StartLocationItem");
-        viaData = intent.getParcelableArrayListExtra("ViaLocationItem");
-        endData = intent.getParcelableArrayListExtra("EndLocationItem");
+        startData = intent.getParcelableArrayListExtra("StartLocationItemToStore");
+        viaData = intent.getParcelableArrayListExtra("ViaLocationItemToStore");
+        endData = intent.getParcelableArrayListExtra("EndLocationItemToStore");
 
         // 출발지인지, 경유지인지, 도착지인지 판단.
         switch(WhichBtn) {
@@ -64,33 +64,37 @@ public class StoreActivity extends AppCompatActivity implements View.OnClickList
                 // ArrayList에 원소 추가. LocationsAdapter adapter 생성을 위해.
                 startData.add(locationItem);
                 startPOIdata.add(locationItem.getPOIItem());
-                for(int i = 0; i < startData.size(); i++) {
-                    // 리스트 속의 아이템 연결
-                    LocationsAdapter startAdapter = new LocationsAdapter(StoreActivity.this, R.layout.locations_item, startPOIdata, startData);
-                    listStartView.setAdapter(startAdapter);
-                    startAdapter.notifyDataSetChanged();
-                }
                 break;
             case "Via":
                 // ArrayList에 원소 추가. LocationsAdapter adapter 생성을 위해.
                 viaData.add(locationItem);
                 viaPOIdata.add(locationItem.getPOIItem());
-                for(int i = 0; i < viaData.size(); i++) {
-                    LocationsAdapter viaAdapter = new LocationsAdapter(StoreActivity.this, R.layout.locations_item, viaPOIdata, viaData);
-                    listViaView.setAdapter(viaAdapter);
-                    viaAdapter.notifyDataSetChanged();
-                }
                 break;
             case "End":
                 // ArrayList에 원소 추가. LocationsAdapter adapter 생성을 위해.
                 endData.add(locationItem);
                 endPOIdata.add(locationItem.getPOIItem());
-                for(int i = 0; i < endData.size(); i++) {
-                    LocationsAdapter endAdapter = new LocationsAdapter(StoreActivity.this, R.layout.locations_item, endPOIdata, endData);
-                    listEndView.setAdapter(endAdapter);
-                    endAdapter.notifyDataSetChanged();
-                }
                 break;
+        }
+
+        // 출발지 출력.
+        for(int i = 0; i < startData.size(); i++) {
+            // 리스트 속의 아이템 연결
+            LocationsAdapter startAdapter = new LocationsAdapter(StoreActivity.this, R.layout.locations_item, startPOIdata, startData);
+            listStartView.setAdapter(startAdapter);
+            startAdapter.notifyDataSetChanged();
+        }
+        // 경유지 출력.
+        for(int i = 0; i < viaData.size(); i++) {
+            LocationsAdapter viaAdapter = new LocationsAdapter(StoreActivity.this, R.layout.locations_item, viaPOIdata, viaData);
+            listViaView.setAdapter(viaAdapter);
+            viaAdapter.notifyDataSetChanged();
+        }
+        // 도착지 출력.
+        for(int i = 0; i < endData.size(); i++) {
+            LocationsAdapter endAdapter = new LocationsAdapter(StoreActivity.this, R.layout.locations_item, endPOIdata, endData);
+            listEndView.setAdapter(endAdapter);
+            endAdapter.notifyDataSetChanged();
         }
 
         btnAdd.setOnClickListener(new View.OnClickListener() {

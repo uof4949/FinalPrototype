@@ -41,9 +41,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         Button btnSearch1 = (Button) findViewById(R.id.BtnSearch1);
 
         // 처음 SearchActivity를 실행했을때 StoreActivity로 넘겨줄 ArrayList들 초기화.
-        startData.clear();
-        viaData.clear();
-        endData.clear();
+        //startData.clear();
+        //viaData.clear();
+        //endData.clear();
 
         btnSearch1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -95,12 +95,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     public void onItemClick(AdapterView parent, View v, int position, long id) {
                         Intent intent = new Intent(getApplicationContext(), LocationClicked.class);
                         // 해당 위치 정보를 담은 locationItem 넘겨줌.
-                        intent.putExtra("LocationItem", data.get(position));
+                        intent.putExtra("LocationItemToLoc", data.get(position));
 
                         // LocationClicked를 거쳐 StoreActivity로 넘겨줄 startData, viaData, endData 전송.
-                        intent.putExtra("StartLocationItem", startData);
-                        intent.putExtra("ViaLocationItem", viaData);
-                        intent.putExtra("EndLocationItem", endData);
+                        intent.putExtra("StartLocationItemToLoc", startData);
+                        intent.putExtra("ViaLocationItemToLoc", viaData);
+                        intent.putExtra("EndLocationItemToLoc", endData);
 
                         startActivityForResult(intent, 0);
                     }
