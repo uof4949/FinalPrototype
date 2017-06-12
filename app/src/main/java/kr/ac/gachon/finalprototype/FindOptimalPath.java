@@ -114,7 +114,16 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
         tmapview.setIconVisibility(true);
 
         // 줌레벨
-        tmapview.setZoomLevel(15);
+        // 왼쪽 상단 좌표구함
+        TMapPoint leftTop = getLeftTopPoint(startData, viaData, endData);
+        // 오른쪽 하단 좌표구함
+        TMapPoint rightBottom = getRightBottomPoint(startData, viaData, endData);
+        // 주어진 좌표에 맞게 줌레벨을 조정.
+        tmapview.zoomToTMapPoint(leftTop, rightBottom);
+
+        // 왼쪽 상단 좌표와 오른쪽 상단 좌표의 평균 좌표를 구한다.
+        //double avgLongitude = (leftTop.getLongitude() + rightBottom.)
+
         // 지도 타입
         tmapview.setMapType(TMapView.MAPTYPE_STANDARD);
         // 언어 설정
@@ -165,6 +174,60 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
         btnCompassMode2.setOnClickListener((View.OnClickListener) this);
         btnSetMapType2.setOnClickListener((View.OnClickListener) this);
         btnReturnToMain.setOnClickListener((View.OnClickListener) this);
+    }
+
+    // 왼쪽 상단 좌표를 구하기 위한 메소드.
+    // 가장 왼쪽에 있는건 경도가 제일 낮은것을 구하면 된다.
+    public TMapPoint getLeftTopPoint(ArrayList<LocationItem> start, ArrayList<LocationItem> via, ArrayList<LocationItem> end) {
+        // 모든 지점을 저장할 ArrayList.
+        ArrayList<LocationItem> allLocation = new ArrayList<LocationItem>();
+        // 반환할 왼쪽 상단 좌표.
+        TMapPoint leftTop = null;
+
+        // 출발지 가져옴.
+        allLocation.add(start.get(0));
+        // 경유지 가져옴.
+        for(int i = 0; i < via.size() ; i++)
+            allLocation.add(via.get(i));
+        // 도착지 가져옴.
+        allLocation.add(end.get(0));
+
+        leftTop = allLocation.get(0).getPOIItem().getPOIPoint();
+
+        for(int i = 0; i < allLocation.size(); i++) {
+            if(leftTop.getLongitude() > allLocation.get(i).getPOIItem().getPOIPoint().getLongitude()) {
+                leftTop = allLocation.get(i).getPOIItem().getPOIPoint();
+            }
+        }
+
+        return leftTop;
+    }
+
+    // 오른쪽 하단 좌표를 구하기 위한 메소드.
+    // 가장 오른쪽에 있는건 경도가 제일 큰 것을 구하면 된다.
+    public TMapPoint getRightBottomPoint(ArrayList<LocationItem> start, ArrayList<LocationItem> via, ArrayList<LocationItem> end) {
+        // 모든 지점을 저장할 ArrayList.
+        ArrayList<LocationItem> allLocation = new ArrayList<LocationItem>();
+        // 반환할 오른쪽 하단 좌표.
+        TMapPoint rightBottom = null;
+
+        // 출발지 가져옴.
+        allLocation.add(start.get(0));
+        // 경유지 가져옴.
+        for(int i = 0; i < via.size() ; i++)
+            allLocation.add(via.get(i));
+        // 도착지 가져옴.
+        allLocation.add(end.get(0));
+
+        rightBottom = allLocation.get(0).getPOIItem().getPOIPoint();
+
+        for(int i = 0; i < allLocation.size(); i++) {
+            if(rightBottom.getLongitude() < allLocation.get(i).getPOIItem().getPOIPoint().getLongitude()) {
+                rightBottom = allLocation.get(i).getPOIItem().getPOIPoint();
+            }
+        }
+
+        return rightBottom;
     }
 
     public void addPoint() { // 여기에 핀을 꼽을 포인트들을 배열에 add해주세요!
