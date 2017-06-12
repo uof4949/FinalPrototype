@@ -38,6 +38,9 @@ public class LocationClicked extends AppCompatActivity implements View.OnClickLi
         mContext = this;
         final EditText editSearch1 = (EditText) findViewById(R.id.EditSearch1);
         TextView textLocName1 = (TextView) findViewById(R.id.TextLocName1);
+        TextView textLocTel = (TextView) findViewById(R.id.TextLocTel);
+        TextView textBizName = (TextView) findViewById(R.id.TextBizName);
+        TextView textDesc = (TextView) findViewById(R.id.TextDesc);
         TextView textLocAddress1 = (TextView) findViewById(R.id.TextLocAddress1);
         Button btnStart = (Button) findViewById(R.id.BtnStart);
         Button btnEnd = (Button) findViewById(R.id.BtnEnd);
@@ -63,8 +66,11 @@ public class LocationClicked extends AppCompatActivity implements View.OnClickLi
 
         // 화면 값 바꿈
         editSearch1.setText(LocName);
-        textLocName1.setText(LocName);
-        textLocAddress1.setText(LocAddress);
+        textLocName1.setText("명칭 : " + LocName);
+        textBizName.setText("분류 : " + locationItem.getPOIItem().lowerBizName);
+        textLocTel.setText("전화번호 : " + locationItem.getPOIItem().telNo);
+        textDesc.setText("설명 : " + locationItem.getPOIItem().desc);
+        textLocAddress1.setText("주소 : " + LocAddress);
 
 
         editSearch1.setOnClickListener(new View.OnClickListener() {
