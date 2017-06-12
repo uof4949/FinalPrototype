@@ -33,7 +33,7 @@ public class LocationItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.locName);
         dest.writeString(this.locAddress);
-        //dest.writeParcelable(this.POIItem, flags);
+        dest.writeParcelable(this.POIItem, flags);
     }
 
     public LocationItem(String locName, String locAddress, ParcelableTMapPOIItem POIItem) {

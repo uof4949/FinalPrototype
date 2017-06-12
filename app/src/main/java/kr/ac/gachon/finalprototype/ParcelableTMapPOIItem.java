@@ -1,11 +1,17 @@
 package kr.ac.gachon.finalprototype;
 
+import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.skp.Tmap.TMapPOIItem;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by viz on 2017. 6. 12..
  */
-/*
+
 public class ParcelableTMapPOIItem extends TMapPOIItem implements Parcelable {
 
     @Override
@@ -51,7 +57,67 @@ public class ParcelableTMapPOIItem extends TMapPOIItem implements Parcelable {
         dest.writeString(this.additionalInfo);
     }
 
+    /*
+    public void ParcelableTMapPOIItem(TMapPOIItem in) {
+        this.id = in.id;
+        this.name = in.name;
+        this.telNo = in.telNo;
+        this.frontLat = in.frontLat;
+        this.frontLon = in.frontLon;
+        this.noorLat = in.noorLat;
+        this.noorLon = in.noorLon;
+        this.upperAddrName = in.upperAddrName;
+        this.middleAddrName = in.middleAddrName;
+        this.lowerAddrName = in.lowerAddrName;
+        this.detailAddrName = in.detailAddrName;
+        this.firstNo = in.firstNo;
+        this.secondNo = in.secondNo;
+        this.upperBizName = in.upperBizName;
+        this.middleBizName = in.middleBizName;
+        this.lowerBizName = in.lowerBizName;
+        this.detailBizName = in.detailBizName;
+        this.rpFlag = in.rpFlag;
+        this.parkFlag = in.parkFlag;
+        this.detailInfoFlag = in.detailInfoFlag;
+        this.desc = in.desc;
+        this.distance = in.distance;
+        this.roadName = in.roadName;
+        this.buildingNo1 = in.buildingNo1;
+        this.buildingNo2 = in.buildingNo2;
+        this.merchanFlag = in.merchanFlag;
+        this.radius = in.radius;
+        this.Icon = in.Icon;
+        this.bizCatName = in.bizCatName;
+        this.address = in.address;
+        this.zipCode = in.zipCode;
+        this.homepageURL = in.homepageURL;
+        this.routeInfo = in.routeInfo;
+        this.additionalInfo = in.additionalInfo;
+    }*/
 
+    public ParcelableTMapPOIItem() {
+    }
+
+    public static ParcelableTMapPOIItem convertFromTMapPOIItem(TMapPOIItem item) {
+        ParcelableTMapPOIItem pItem = new ParcelableTMapPOIItem();
+
+        Class<?> origin = TMapPOIItem.class;
+        Class<?> target = ParcelableTMapPOIItem.class;
+
+        Field[] originFields = origin.getFields();
+
+        for(Field originField : originFields) {
+            try {
+                Field targetField = target.getField(originField.getName());
+                Object field = originField.get(item);
+                targetField.set(pItem, field);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        return pItem;
+    }
     protected ParcelableTMapPOIItem(Parcel in) {
         this.id = in.readString();
         this.name = in.readString();
@@ -100,9 +166,9 @@ public class ParcelableTMapPOIItem extends TMapPOIItem implements Parcelable {
             return new ParcelableTMapPOIItem[size];
         }
     };
-}*/
-
+}
+/*
 public class ParcelableTMapPOIItem extends TMapPOIItem {
 
 
-}
+}*/

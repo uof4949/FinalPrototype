@@ -60,7 +60,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                             TMapPOIItem item = poiItem.get(i);
                             //Toast.makeText(SearchActivity.this, "TMapPOIItem item = poiItem.get(i)", Toast.LENGTH_SHORT).show();
                             // i번째 아이템 이름, 주소 받아옴.
-                            ParcelableTMapPOIItem pitem = (ParcelableTMapPOIItem) item;
+                            ParcelableTMapPOIItem pitem = null;
+                            pitem = ParcelableTMapPOIItem.convertFromTMapPOIItem(item);
+                            //ParcelableTMapPOIItem pitem = new ParcelableTMapPOIItem();
+                            //pitem = item;
                             LocationItem locationItem = new LocationItem(item.getPOIName().toString(), item.getPOIAddress().replace("null", ""), pitem);
                             // 리스트에 추가
                             POIdata.add(item);
