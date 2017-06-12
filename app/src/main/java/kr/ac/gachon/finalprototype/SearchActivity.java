@@ -13,8 +13,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.skp.Tmap.TMapData;
+import com.skp.Tmap.TMapData.FindAllPOIListenerCallback;
 import com.skp.Tmap.TMapPOIItem;
-import com.skp.Tmap.TMapPoint;
 
 import java.util.ArrayList;
 
@@ -24,9 +24,10 @@ import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ArrayList<LocationItem> data = null;
-    ArrayList<TMapPOIItem> POIdata = null;
-    TMapPoint tpoint = null;
+    private ArrayList<LocationItem> data = null;
+    private ArrayList<TMapPOIItem> POIdata = null;
+
+    //TMapPoint tpoint = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,46 +42,37 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 EditText editSearch = (EditText) findViewById(R.id.EditSearch);
                 ListView listLocView = (ListView) findViewById(R.id.ListLocView);
 
-                Toast.makeText(SearchActivity.this, "검색", Toast.LENGTH_SHORT).show();
+                searchText = editSearch.getText().toString();
 
-                //new Handler().postDelayed(new Runnable()
-               // {
-                 //   @Override
-                //    public void run()
-                //    {
-                        //여기에 딜레이 후 시작할 작업들을 입력
-               //     }
-              //  }, 500);// 0.5초 정도 딜레이를 준 후 시작
-                //SystemClock.sleep(1000);
+                Toast.makeText(SearchActivity.this, "검색 : " +searchText, Toast.LENGTH_SHORT).show();
+
                 // 키보드 내리기.
-                hideSoftKeyboard(v);
-
+                //hideSoftKeyboard(v);
                 POIdata = new ArrayList<TMapPOIItem>();
                 data = new ArrayList<LocationItem>();
                 POIdata.clear();
                 data.clear();
-                searchText = editSearch.getText().toString();
+
                 TMapData tmapdata = new TMapData();
-                tmapdata.findAllPOI(searchText, 50,
-                        new TMapData.FindAllPOIListenerCallback() {
+                tmapdata.findAllPOI(searchText, 20, new FindAllPOIListenerCallback() {
                             @Override
                             public void onFindAllPOI(ArrayList<TMapPOIItem> poiItem) {
-                                for(int i = 0; i<poiItem.size(); i++) {
-                                    TMapPOIItem item = poiItem.get(i);
+                                for(int i = 0; i < poiItem.size(); i++) {
+                                   TMapPOIItem item = poiItem.get(i);
+                                    Toast.makeText(SearchActivity.this, "TMapPOIItem item = poiItem.get(i)", Toast.LENGTH_SHORT).show();
                                     // i번째 아이템 이름, 주소 받아옴.
-                                    LocationItem locationItem = new LocationItem(item.getPOIName().toString(), item.getPOIAddress().replace("null", ""), item);
+                                    LocationItem locationItem = new LocationItem(item.getPOIName().toString(), item.getPOIAddress().replace("null", ""), (ParcelableTMapPOIItem) item);
                                     // 리스트에 추가
                                     POIdata.add(item);
                                     data.add(locationItem);
                                     // 검색된 주소 좌표 위치 받아옴.
-                                    tpoint = item.getPOIPoint();
+                                    //tpoint = item.getPOIPoint();
                                 }
                             }
                         });
                 // 리스트 속의 아이템 연결
                 LocationsAdapter adapter = new LocationsAdapter(SearchActivity.this, R.layout.locations_item, POIdata, data);
                 listLocView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
                 //adapter.notifyDataSetChanged();
 
                 // 아이템 클릭시 작동
@@ -89,32 +81,20 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     public void onItemClick(AdapterView parent, View v, int position, long id) {
                         Intent intent = new Intent(getApplicationContext(), LocationClicked.class);
                         // putExtra의 첫 값은 식별 태그, 뒤에는 다음 화면에 넘길 값.
-                        intent.putExtra("LocName", data.get(position).getLocName());
-                        intent.putExtra("LocAddress", data.get(position).getLocAddress());
-                        intent.putExtra("LocLatitude", tpoint.getLatitude());
-                        intent.putExtra("LocLongitude", tpoint.getLongitude());
+                        // 이름, 주소, POIItem 세개 넘기지 말고 그냥 LocationItem 넘기면 해결되는거 아님?
+                        intent.putExtra("LocationItem", data.get(position));
+                        //intent.putExtra("LocName", data.get(position).getLocName());
+                        //intent.putExtra("LocAddress", data.get(position).getLocAddress());
+                        //intent.putExtra("POIItem", data.get(position).getPOIItem());
                         startActivityForResult(intent, 0);
                     }
                 });
+
             }
         });
-        /*editSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String searchText = editSearch.getText().toString();
-                adapter.filter(searchText);
-            }
-        });*/
     }
 
     // 오버라이딩 안하면 오류남. 반드시 해줘야 함.

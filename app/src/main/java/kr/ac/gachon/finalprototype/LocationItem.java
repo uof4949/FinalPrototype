@@ -1,20 +1,22 @@
 package kr.ac.gachon.finalprototype;
 
-import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.skp.Tmap.TMapGpsManager;
-import com.skp.Tmap.TMapPOIItem;
-
 /**
- * Created by kalios on 2017-06-11.
+ * Created by viz on 2017. 6. 11..
  */
 
-public class LocationItem extends TMapPOIItem implements TMapGpsManager.onLocationChangedCallback, Parcelable {
+public class LocationItem implements Parcelable {
     private String locName;
     private String locAddress;
-    private TMapPOIItem POIItem;
+    private ParcelableTMapPOIItem POIItem;
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
     public String getLocName() {
         return locName;
@@ -24,46 +26,37 @@ public class LocationItem extends TMapPOIItem implements TMapGpsManager.onLocati
         return locAddress;
     }
 
-    public TMapPOIItem getPOIItem() {
+    public ParcelableTMapPOIItem getPOIItem() {
         return POIItem;
     }
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.locName);
+        dest.writeString(this.locAddress);
+        dest.writeParcelable(this.POIItem, flags);
+    }
 
-
-    public LocationItem(String locName, String locAddress, TMapPOIItem POIItem) {
+    public LocationItem(String locName, String locAddress, ParcelableTMapPOIItem POIItem) {
         this.locName = locName;
         this.locAddress = locAddress;
         this.POIItem = POIItem;
     }
 
-    public LocationItem(Parcel parcel) {
-        this.locName = parcel.readString();
-        this.locAddress = parcel.readString();
+    protected LocationItem(Parcel in) {
+        this.locName = in.readString();
+        this.locAddress = in.readString();
+        this.POIItem = in.readParcelable(ParcelableTMapPOIItem.class.getClassLoader());
     }
-    public static final Parcelable.Creator<LocationItem> CREATOR = new Parcelable.Creator<LocationItem>() {
+
+    public static final Creator<LocationItem> CREATOR = new Creator<LocationItem>() {
         @Override
-        public LocationItem createFromParcel(Parcel parcel) {
-            return new LocationItem(parcel);
+        public LocationItem createFromParcel(Parcel source) {
+            return new LocationItem(source);
         }
+
         @Override
         public LocationItem[] newArray(int size) {
             return new LocationItem[size];
         }
     };
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.locName);
-        dest.writeString(this.locAddress);
-        dest.writeValue(this.POIItem);
-    }
-
-    private void readFromPardel(Parcel in) {
-        locName = in.readString();
-        locAddress = in.readString();
-    }
-
-
-    @Override
-    public void onLocationChange(Location location) {
-    }
 }
