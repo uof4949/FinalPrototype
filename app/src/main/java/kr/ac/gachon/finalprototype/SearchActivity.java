@@ -46,7 +46,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 //Toast.makeText(SearchActivity.this, "검색 : " +searchText, Toast.LENGTH_SHORT).show();
 
                 // 키보드 내리기.
-                //hideSoftKeyboard(v);
+                hideSoftKeyboard(v);
                 POIdata = new ArrayList<TMapPOIItem>();
                 data = new ArrayList<LocationItem>();
                 POIdata.clear();
