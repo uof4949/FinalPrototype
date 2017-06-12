@@ -15,6 +15,7 @@ import com.skp.Tmap.TMapData;
 import com.skp.Tmap.TMapGpsManager;
 import com.skp.Tmap.TMapMarkerItem;
 import com.skp.Tmap.TMapPoint;
+import com.skp.Tmap.TMapPolyLine;
 import com.skp.Tmap.TMapView;
 
 import java.util.ArrayList;
@@ -48,6 +49,14 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
     private ArrayList<String> mArrayMarkerID = new ArrayList<String>();
     private ArrayList<MapPoint> m_mapPoint = new ArrayList<MapPoint>();
 
+    // 받아온 좌표들.
+    ArrayList<LocationItem> startData = new ArrayList<LocationItem>();
+    ArrayList<LocationItem> viaData = new ArrayList<LocationItem>();
+    ArrayList<LocationItem> endData = new ArrayList<LocationItem>();
+
+    // 경유지는 TMapPoint ArrayList이므로 따로 지정해주고 viaData에서 받아온다.
+    ArrayList<TMapPoint> passList = new ArrayList<TMapPoint>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +76,27 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
         btnSetMapType2 = (Button) findViewById(R.id.BtnSetMapType2);
         btnReturnToMain = (Button) findViewById(R.id.BtnReturnToMain);
 
+        Intent intent = getIntent();
+
+        // 초기화.
+        startData.clear();
+        viaData.clear();
+        endData.clear();
+        passList.clear();
+
+        // SearchActivity에서 LocationClicked를 거쳐 StoreActivity로 전달될 startData, viaData, endData 받아옴.
+        // LocationClicked에서 넘어올 때 새로 생성되므로 매번 넣어줘야함.
+        startData = intent.getParcelableArrayListExtra("StartLocationItemToFind");
+        viaData = intent.getParcelableArrayListExtra("ViaLocationItemToFind");
+        endData = intent.getParcelableArrayListExtra("EndLocationItemToFind");
+
+        // passList에 viaData의 TMapPoint 값을 뽑아서 넣어준다.
+        for(int i = 0; i < viaData.size(); i++) {
+            TMapPoint tMapPoint = viaData.get(i).getPOIItem().getPOIPoint();
+            passList.add(tMapPoint);
+        }
+
+
         tmapdata = new TMapData(); // POI 검색, 경로검색 등의 지도데이터를 관리하는 클래스.
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.optimalmapview);
         tmapview = new TMapView(this);
@@ -74,8 +104,8 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
         linearLayout.addView(tmapview);
         tmapview.setSKPMapApiKey(mApiKey);
 
-        addPoint();
-        showMarkerPoint();
+        //addPoint();
+        //howMarkerPoint();
 
         // 현재 보는 방향
         tmapview.setCompassMode(true);
@@ -97,7 +127,7 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
         // 연결된 인터넷으로 현 위치를 받는다.
         // 실내일 때 유용함.
         //tmapgps.setProvider(tmapgps.GPS_PROVIDER); // gps로 현 위치를 잡습니다.
-        tmapgps.OpenGps();
+        //tmapgps.OpenGps();
 
         // 현재 위치의 좌표를 반환합니다.
         //tpoint = tmapgps.getLocation();
@@ -111,6 +141,22 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
         tmapview.setTrackingMode(true);
         tmapview.setSightVisible(true);
 
+
+        // 경로 요청.
+        // 첫 번째 인자는 자동차 경로 type.
+        // 두 번째 인자는 출발지 위치 좌표.
+        // 세 번째 인자는 도착지 위치 좌표.
+        // 네 번째 인자는 경유지에 대한 좌표.
+        // 다섯 번째 인자는 경로 탐색 옵션. 0이 교통최적 + 추천(기본값).
+        tmapdata.findPathDataWithType(TMapData.TMapPathType.CAR_PATH,
+                startData.get(0).getPOIItem().getPOIPoint(), endData.get(0).getPOIItem().getPOIPoint(),
+                passList, 0,
+                new TMapData.FindPathDataListenerCallback() {
+                    @Override
+                    public void onFindPathData(TMapPolyLine polyLine) {
+                        tmapview.addTMapPath(polyLine);
+                    }
+                });
 
         // 버튼 리스너 등록
         btnZoomIn2.setOnClickListener((View.OnClickListener) this);
