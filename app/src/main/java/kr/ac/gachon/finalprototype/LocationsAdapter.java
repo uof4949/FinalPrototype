@@ -17,13 +17,13 @@ import java.util.ArrayList;
 
 public class LocationsAdapter extends BaseAdapter {
     private LayoutInflater inflater;
-    private ArrayList<TMapPOIItem> POIdata; // POI 목록을 담을 배열.
+    private ArrayList<TMapPOIItem> POIItem; // POI 목록을 담을 배열.
     private ArrayList<LocationItem> data; // location 목록을 담을 배열.
     private int layout;
 
-    public LocationsAdapter (Context context, int layout, ArrayList<TMapPOIItem> POIdata, ArrayList<LocationItem> data) {
+    public LocationsAdapter (Context context, int layout, ArrayList<TMapPOIItem> POIItem, ArrayList<LocationItem> data) {
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.POIdata = POIdata;
+        this.POIItem = POIItem;
         this.data = data;
         this.layout = layout;
     }

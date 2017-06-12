@@ -1,15 +1,11 @@
 package kr.ac.gachon.finalprototype;
 
-import android.graphics.Bitmap;
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.skp.Tmap.TMapPOIItem;
 
 /**
  * Created by viz on 2017. 6. 12..
  */
-
+/*
 public class ParcelableTMapPOIItem extends TMapPOIItem implements Parcelable {
 
     @Override
@@ -55,8 +51,6 @@ public class ParcelableTMapPOIItem extends TMapPOIItem implements Parcelable {
         dest.writeString(this.additionalInfo);
     }
 
-    public ParcelableTMapPOIItem() {
-    }
 
     protected ParcelableTMapPOIItem(Parcel in) {
         this.id = in.readString();
@@ -106,4 +100,9 @@ public class ParcelableTMapPOIItem extends TMapPOIItem implements Parcelable {
             return new ParcelableTMapPOIItem[size];
         }
     };
+}*/
+
+public class ParcelableTMapPOIItem extends TMapPOIItem {
+
+
 }

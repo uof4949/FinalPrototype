@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.skp.Tmap.TMapData;
 import com.skp.Tmap.TMapData.FindAllPOIListenerCallback;
@@ -44,7 +43,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
                 searchText = editSearch.getText().toString();
 
-                Toast.makeText(SearchActivity.this, "검색 : " +searchText, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(SearchActivity.this, "검색 : " +searchText, Toast.LENGTH_SHORT).show();
 
                 // 키보드 내리기.
                 //hideSoftKeyboard(v);
@@ -55,21 +54,22 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
                 TMapData tmapdata = new TMapData();
                 tmapdata.findAllPOI(searchText, 20, new FindAllPOIListenerCallback() {
-                            @Override
-                            public void onFindAllPOI(ArrayList<TMapPOIItem> poiItem) {
-                                for(int i = 0; i < poiItem.size(); i++) {
-                                   TMapPOIItem item = poiItem.get(i);
-                                    Toast.makeText(SearchActivity.this, "TMapPOIItem item = poiItem.get(i)", Toast.LENGTH_SHORT).show();
-                                    // i번째 아이템 이름, 주소 받아옴.
-                                    LocationItem locationItem = new LocationItem(item.getPOIName().toString(), item.getPOIAddress().replace("null", ""), (ParcelableTMapPOIItem) item);
-                                    // 리스트에 추가
-                                    POIdata.add(item);
-                                    data.add(locationItem);
-                                    // 검색된 주소 좌표 위치 받아옴.
-                                    //tpoint = item.getPOIPoint();
-                                }
-                            }
-                        });
+                    @Override
+                    public void onFindAllPOI(ArrayList<TMapPOIItem> poiItem) {
+                        for(int i = 0; i < poiItem.size(); i++) {
+                            TMapPOIItem item = poiItem.get(i);
+                            //Toast.makeText(SearchActivity.this, "TMapPOIItem item = poiItem.get(i)", Toast.LENGTH_SHORT).show();
+                            // i번째 아이템 이름, 주소 받아옴.
+                            ParcelableTMapPOIItem pitem = (ParcelableTMapPOIItem) item;
+                            LocationItem locationItem = new LocationItem(item.getPOIName().toString(), item.getPOIAddress().replace("null", ""), pitem);
+                            // 리스트에 추가
+                            POIdata.add(item);
+                            data.add(locationItem);
+                            // 검색된 주소 좌표 위치 받아옴.
+                            //tpoint = item.getPOIPoint();
+                        }
+                    }
+                });
                 // 리스트 속의 아이템 연결
                 LocationsAdapter adapter = new LocationsAdapter(SearchActivity.this, R.layout.locations_item, POIdata, data);
                 listLocView.setAdapter(adapter);
