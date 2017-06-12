@@ -22,6 +22,7 @@
         <activity android:name=".PermissionsActivity"></activity>
         <activity android:name=".LocationClicked"></activity>
         <activity android:name=".StoreActivity"></activity>
+        <activity android:name=".FindOptimalPath"></activity>
     </application>
 
 </manifest>

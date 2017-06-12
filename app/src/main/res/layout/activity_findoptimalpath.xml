@@ -9,51 +9,51 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp"
-    tools:context="kr.ac.gachon.finalprototype.MainActivity">
+    tools:context="kr.ac.gachon.finalprototype.FindOptimalPath">
 
     <Button
-        android:id="@+id/BtnSearch"
+        android:id="@+id/BtnZoomIn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="검색" />
-    <Button
-        android:id="@+id/BtnZoomIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/BtnSearch"
         android:text="확대" />
     <Button
-        android:id="@+id/BtnZoomOut"
+        android:id="@+id/BtnZoomOut2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/BtnZoomIn"
+        android:layout_below="@+id/BtnZoomIn2"
         android:text="축소"/>
     <Button
-        android:id="@+id/BtnCompassMode"
+        android:id="@+id/BtnCompassMode2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/BtnZoomOut"
+        android:layout_below="@+id/BtnZoomOut2"
         android:text="나침반"/>
     <Button
-        android:id="@+id/BtnSetTrackingMode"
+        android:id="@+id/BtnSetTrackingMode2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/BtnCompassMode"
+        android:layout_below="@+id/BtnCompassMode2"
         android:text="현위치"/>
     <Button
-        android:id="@+id/BtnSetMapType"
+        android:id="@+id/BtnSetMapType2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/BtnSetTrackingMode"
+        android:layout_below="@+id/BtnSetTrackingMode2"
         android:text="지도종류"/>
+    <Button
+        android:id="@+id/BtnReturnToMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/BtnSetMapType2"
+        android:text="돌아가기"/>
     <LinearLayout
-        android:id="@+id/mapview"
+        android:id="@+id/optimalmapview"
         android:layout_width="match_parent"
         android:layout_height="510dp"
         android:background="@android:color/white"

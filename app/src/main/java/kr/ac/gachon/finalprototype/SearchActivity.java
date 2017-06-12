@@ -108,9 +108,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
             }
         });
-
-
-
     }
 
     // 오버라이딩 안하면 오류남. 반드시 해줘야 함.

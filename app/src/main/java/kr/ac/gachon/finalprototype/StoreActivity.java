@@ -97,6 +97,7 @@ public class StoreActivity extends AppCompatActivity implements View.OnClickList
             endAdapter.notifyDataSetChanged();
         }
 
+        // 계속 추가 버튼을 눌렀을 때.
         btnAdd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent outIntent = new Intent(getApplicationContext(), LocationClicked.class);
@@ -107,6 +108,20 @@ public class StoreActivity extends AppCompatActivity implements View.OnClickList
                 outIntent.putExtra("StoreResult", new String("Add"));
                 setResult(RESULT_OK, outIntent);
                 finish();
+            }
+        });
+
+        // 경로 탐색 버튼을 눌렀을 때.
+        btnCompute.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), FindOptimalPath.class);
+                // 최적 경로 탐색 화면으로 간다.
+                // 데이터 전송.
+                intent.putExtra("StartLocationItemToFind", startData);
+                intent.putExtra("ViaLocationItemToFind", viaData);
+                intent.putExtra("EndLocationItemToFind", endData);
+
+                startActivity(intent);
             }
         });
     }
