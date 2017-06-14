@@ -50,7 +50,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 String searchText;
                 EditText editSearch = (EditText) findViewById(R.id.EditSearch);
                 ListView listLocView = (ListView) findViewById(R.id.ListLocView);
-
                 searchText = editSearch.getText().toString();
 
                 //Toast.makeText(SearchActivity.this, "검색 : " +searchText, Toast.LENGTH_SHORT).show();
