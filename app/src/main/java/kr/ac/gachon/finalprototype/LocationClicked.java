@@ -78,6 +78,7 @@ public class LocationClicked extends AppCompatActivity implements View.OnClickLi
                 Intent outIntent = new Intent(getApplicationContext(), SearchActivity.class);
                 // 이 경우 LocResult 키워드로 반환하되 EditText에 있던 문자열을 전송.
                 outIntent.putExtra("LocResult", editSearch1.getText().toString());
+                outIntent.putExtra("SearchValue", editSearch1.getText().toString());
                 setResult(RESULT_OK, outIntent);
                 finish();
             }
