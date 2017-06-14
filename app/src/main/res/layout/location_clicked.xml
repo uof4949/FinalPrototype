@@ -76,25 +76,25 @@
 
     <Button
         android:id="@+id/BtnEnd"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/BtnStart"
-        android:layout_toRightOf="@+id/BtnStart"
+        android:layout_toEndOf="@+id/BtnVia"
+        android:layout_toRightOf="@+id/BtnVia"
         android:text="도착지" />
 
     <Button
         android:id="@+id/BtnVia"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:text="경유지"
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/BtnEnd"
-        android:layout_toEndOf="@+id/BtnEnd" />
+        android:layout_toRightOf="@+id/BtnStart"
+        android:layout_toEndOf="@+id/BtnStart" />
 
     <Button
         android:id="@+id/BtnStart"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

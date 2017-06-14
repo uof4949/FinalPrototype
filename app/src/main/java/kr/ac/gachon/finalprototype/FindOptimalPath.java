@@ -110,7 +110,7 @@ public class FindOptimalPath extends AppCompatActivity implements View.OnClickLi
         //howMarkerPoint();
 
         // 현재 보는 방향
-        tmapview.setCompassMode(true);
+        tmapview.setCompassMode(false);
 
         // 현위치 아이콘표시
         //tmapview.setIconVisibility(true);

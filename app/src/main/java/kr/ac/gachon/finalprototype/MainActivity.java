@@ -147,6 +147,10 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
         tpoint = tmapgps.getLocation();
         Latitude = tpoint.getLatitude();
         Longitude = tpoint.getLongitude();
+
+        // 현재위치로 표시될 좌표의 위도 경도 설정.
+        //tmapview.setLocationPoint(Longitude, Latitude);
+        //tmapview.setIconVisibility(true);
         m_tmapPoint.add(tpoint);
 
         //tmapview.setCenterPoint(tpoint.getLongitude(), tpoint.getLatitude(), true);

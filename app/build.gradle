@@ -31,4 +31,5 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:26.0.0-alpha1'
     compile 'com.android.support:support-v4:26.0.0-alpha1'
     compile 'com.android.support:support-annotations:26.0.0-alpha1'
+    compile 'com.ssomai:android.scalablelayout:2.1.1'
 }

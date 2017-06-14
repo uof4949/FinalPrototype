@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sl="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mainView"
     android:layout_width="fill_parent"
@@ -10,63 +11,115 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp"
     tools:context="kr.ac.gachon.finalprototype.MainActivity">
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        sl:scale_base_width="1080"
+        sl:scale_base_height="1920">
+        <LinearLayout
+            android:id="@+id/mapview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            sl:scale_height="1920"
+            sl:scale_left="0"
+            sl:scale_top="0"
+            sl:scale_width="1080"></LinearLayout>
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        sl:scale_base_height="1920"
+        sl:scale_base_width="1080">
+
         <Button
             android:id="@+id/BtnSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="검색" />
+            android:text="검색"
+            sl:scale_height="160"
+            sl:scale_left="820"
+            sl:scale_textsize="40"
+            sl:scale_top="0"
+            sl:scale_width="260" />
+
         <Button
             android:id="@+id/BtnZoomIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/BtnSearch"
-            android:text="확대" />
+            android:text="확대"
+            sl:scale_height="160"
+            sl:scale_left="820"
+            sl:scale_textsize="40"
+            sl:scale_top="0"
+            sl:scale_width="260" />
+
         <Button
             android:id="@+id/BtnZoomOut"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/BtnZoomIn"
-            android:text="축소"/>
-    <Button
-        android:id="@+id/BtnCompassMode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/BtnZoomOut"
-        android:text="나침반"/>
-    <Button
-        android:id="@+id/BtnSetTrackingMode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/BtnCompassMode"
-        android:text="현위치"/>
-    <Button
-        android:id="@+id/BtnSetMapType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/BtnSetTrackingMode"
-        android:text="지도종류"/>
-    <Button
-        android:id="@+id/BtnHide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignBottom="@+id/mapview"
-        android:text="버튼숨기기"/>
+            android:text="축소"
+            sl:scale_height="160"
+            sl:scale_left="820"
+            sl:scale_textsize="40"
+            sl:scale_top="160"
+            sl:scale_width="260" />
 
-    <LinearLayout
-        android:id="@+id/mapview"
-        android:layout_width="match_parent"
-        android:layout_height="510dp"
-        android:background="@android:color/white"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-    </LinearLayout>
+        <Button
+            android:id="@+id/BtnCompassMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="나침반"
+            sl:scale_height="160"
+            sl:scale_left="820"
+            sl:scale_textsize="40"
+            sl:scale_top="320"
+            sl:scale_width="260" />
+
+        <Button
+            android:id="@+id/BtnSetTrackingMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="현위치"
+            sl:scale_height="160"
+            sl:scale_left="820"
+            sl:scale_textsize="40"
+            sl:scale_top="480"
+            sl:scale_width="260" />
+
+        <Button
+            android:id="@+id/BtnSetMapType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="지도종류"
+            sl:scale_height="160"
+            sl:scale_left="820"
+            sl:scale_textsize="40"
+            sl:scale_top="640"
+            sl:scale_width="260" />
+
+        <Button
+            android:id="@+id/BtnHide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="버튼숨기기"
+            sl:scale_height="160"
+            sl:scale_left="780"
+            sl:scale_textsize="40"
+            sl:scale_top="1300"
+            sl:scale_width="300" />
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
 </RelativeLayout>
