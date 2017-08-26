@@ -45,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements TMapGpsManager.on
     private TMapPoint tpoint = null;
     private double Latitude = 0;
     private double Longitude = 0;
-    private static String mApiKey = "eb2f6d74-4047-3adf-be50-928b2797d49e";
+    private static String mApiKey = "";
+    // Apikey from skplanet
     private static int mMarkerID;
 
     private ArrayList<TMapPoint> m_tmapPoint = new ArrayList<TMapPoint>();
